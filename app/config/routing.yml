@@ -1,0 +1,5 @@
+bic_form_validation:
+    resource: "@BicFormValidationBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
