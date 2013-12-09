@@ -5,24 +5,38 @@ namespace Bic\FormValidationBundle\Generator\Format;
 use Bic\FormValidationBundle\Generator;
 
 /**
- * Description of JQueryValidator
+ * Class created to use JQueryValidator from FormValidation.
+ * It returns a proper way to asign the validation to the jQValidation plugin:
+ * http://jqueryvalidation.org/
+ * https://github.com/jzaefferer/jquery-validation
  *
  * @author jaume.tarradasllort
  */
 class JQueryValidator extends Generator\FormValidation {
 
-    private $jQResult;
+    /**
+     * @var array
+     */
+    private $jQResult = array();
     
+    /**
+     * 
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     */
     public function __construct(\Symfony\Component\DependencyInjection\ContainerInterface $container) {
         parent::__construct($container);
     }
 
+    /**
+     * It transforms the fields to an array
+     * 
+     * @param type $form
+     */
     public function generateJQValidation($form) {
         //extract validation
         $this->extractValidation($form);
 
-        $this->jQResult = array();
-
+        //lets drill
         foreach ($this->fields as $field) {
             foreach ($field->getConstraints() AS $groupName => $constraints) {
                 foreach ($constraints AS $index => $constraint) {
@@ -39,13 +53,13 @@ class JQueryValidator extends Generator\FormValidation {
 
                     //translate the messages
                     if (isset($contraint['message'])) {
-                        $contraint['message'] = $this->container->get('translator')->trans($contraint['message'], array(), 'validators');
+                        $contraint['message'] = $this->container->get('translator')->trans($contraint['message']);
                     }
                     if (isset($contraint['maxMessage'])) {
-                        $contraint['maxMessage'] = $this->container->get('translator')->trans($contraint['maxMessage'], array(), 'validators');
+                        $contraint['maxMessage'] = $this->container->get('translator')->trans($contraint['maxMessage']);
                     }
                     if (isset($contraint['minMessage'])) {
-                        $contraint['minMessage'] = $this->container->get('translator')->trans($contraint['minMessage'], array(), 'validators');
+                        $contraint['minMessage'] = $this->container->get('translator')->trans($contraint['minMessage']);
                     }
 
                     //parse constraints
@@ -60,6 +74,7 @@ class JQueryValidator extends Generator\FormValidation {
                                 if ($contraint['maxMessage']) {
                                     $contraint['maxMessage'] = str_replace('{{ limit }}', $contraint['max'], $contraint['maxMessage']);
 
+                                    //todo adjust plural messages
                                     //explode | to avoid message problem and provide it just once
                                     if (strpos($contraint['maxMessage'], '|') !== false) {
                                         $contraint['maxMessage'] = explode('|', $contraint['maxMessage']);
@@ -120,6 +135,11 @@ class JQueryValidator extends Generator\FormValidation {
         }
     }
 
+    /**
+     * Return Json object
+     * 
+     * @return type
+     */
     public function returnJson() {
         $json = json_encode($this->jQResult);
 
@@ -135,4 +155,22 @@ class JQueryValidator extends Generator\FormValidation {
         return $json;
     }
 
+    /**
+     * Return the jQValidator validation object
+     * 
+     * @return array
+     */
+    public function getJQResult(){
+        return $this->jQResult;
+    }
+    
+    /**
+     * Set the jQValidator validation object
+     * 
+     * @param array $jQResult
+     */
+    public function setJQResult(array $jQResult){
+        $this->jQResult = $jQResult;
+    }
+    
 }

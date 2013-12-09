@@ -7,31 +7,33 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ValidationField extends ContainerAware {
 
+    /**
+     * @var array Full name of the field
+     */
     private $pathName = array();
+
+    /**
+     * @var array Validation groups
+     */
     private $validationGroups = array();
+
+    /**
+     * @var class Property parent class
+     */
     private $dataClass;
+
+    /**
+     * @var array Validation constraints
+     */
     private $constraints = array();
 
-    public function getName() {
-        return $this->pathName[0];
-    }
-
-    public function getPathName() {
-        return $this->pathName;
-    }
-
-    public function getValidationGroups() {
-        return $this->validationGroups;
-    }
-
-    public function getDataClass() {
-        return $this->dataClass;
-    }
-
-    public function getConstraints() {
-        return $this->constraints;
-    }
-
+    /**
+     * Note: Return false if is a submit object
+     * 
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param \Symfony\Component\Form\FormInterface $form
+     * @return boolean
+     */
     public function __construct(ContainerInterface $container, \Symfony\Component\Form\FormInterface $form) {
         // set container
         $this->setContainer($container);
@@ -55,6 +57,10 @@ class ValidationField extends ContainerAware {
         $this->extractContraints();
     }
 
+    /**
+     * 
+     * @param \Symfony\Component\Form\FormInterface $form
+     */
     private function getParentPathNames(\Symfony\Component\Form\FormInterface $form) {
         $parent = $form->getParent();
         if ($parent) {
@@ -63,6 +69,10 @@ class ValidationField extends ContainerAware {
         }
     }
 
+    /**
+     * 
+     * @param \Symfony\Component\Form\FormInterface $form
+     */
     private function getParentValidationGroups(\Symfony\Component\Form\FormInterface $form) {
         $parent = $form->getParent();
         $validationGroups = $parent->getConfig()->getOption('validation_groups');
@@ -71,6 +81,10 @@ class ValidationField extends ContainerAware {
         }
     }
 
+    /**
+     * 
+     * @param \Symfony\Component\Form\FormInterface $form
+     */
     private function getParentDataClasses(\Symfony\Component\Form\FormInterface $form) {
         $parent = $form->getParent();
         if ($parent->getConfig()->getDataClass()) {
@@ -83,6 +97,10 @@ class ValidationField extends ContainerAware {
         }
     }
 
+    /**
+     * 
+     * @return boolean
+     */
     private function assignProperDataClass() {
         if (is_array($this->dataClass)) {
             foreach ($this->dataClass as $class) {
@@ -104,6 +122,9 @@ class ValidationField extends ContainerAware {
         }
     }
 
+    /**
+     * Helper - Extract all the constraints
+     */
     private function extractContraints() {
         // get validator
         $validator = $this->container->get('validator');
@@ -136,6 +157,41 @@ class ValidationField extends ContainerAware {
                 }
             }
         }
+    }
+
+    /**
+     * @return string Field name
+     */
+    public function getName() {
+        return $this->pathName[0];
+    }
+
+    /**
+     * @return array Field full name
+     */
+    public function getPathName() {
+        return $this->pathName;
+    }
+
+    /**
+     * @return array Validation groups
+     */
+    public function getValidationGroups() {
+        return $this->validationGroups;
+    }
+
+    /**
+     * @return string Parent class
+     */
+    public function getDataClass() {
+        return $this->dataClass;
+    }
+
+    /**
+     * @return array Constraints
+     */
+    public function getConstraints() {
+        return $this->constraints;
     }
 
 }
