@@ -1,5 +1,4 @@
-bic_form_validation:
-    resource: "@BicFormValidationBundle/Controller/"
+bic_form_validation_test:
+    resource: "@BicFormValidationTestBundle/Controller/"
     type:     annotation
-    prefix:   /
-
+    prefix:   /test/

@@ -1,0 +1,30 @@
+{
+    "name":        "bic/form-validation",
+    "type":        "symfony-bundle",
+    "description": "Let's take the form validation logic and apply it for example...javascript. There is an option for jQ Validation. Feel free to apply your logic or extend it.",
+    "keywords":    ["form validation", "form", "validation", "javascript", "twig"],
+    "homepage":    "https://github.com/bichotll/FormValidationBundle",
+    "license":     "MIT",
+
+    "authors": [
+        {
+            "name": "Jaume Tarradas llort",
+            "homepage": "https://github.com/bichotll"
+        }
+    ],
+
+    "require": {
+        "php":                      ">=5.3.3",
+        "symfony/framework-bundle": ">=2.3.0"
+    },
+
+    "minimum-stability": "dev",
+
+    "autoload": {
+        "psr-0": {
+            "Bic\\FormValidationBundle": ""
+        }
+    },
+
+    "target-dir": "Bic/FormValidationBundle"
+}
