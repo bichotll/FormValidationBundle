@@ -12,7 +12,7 @@ With this tool you will be able to abstract the form inputs validation and parse
 
 ##Available Formats
 
- - jQueryValidator
+ - (jQueryValidator (documentation))[https://github.com/bichotll/FormValidationBundle/blob/master/Resources/doc/Format/jQueryValidator.md]
  
 
 ##How it works
