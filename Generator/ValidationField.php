@@ -151,6 +151,14 @@ class ValidationField extends ContainerAware {
                                 foreach ($constraints AS $constraint) {
                                     $this->constraints[$constraintGroup][] = $constraint;
                                 }
+                            } else {
+                                foreach ($this->validationGroups as $validationGroup) {
+                                    if (in_array($constraintGroup, $validationGroup)) {
+                                        foreach ($constraints AS $constraint) {
+                                            $this->constraints[$constraintGroup][] = $constraint;
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
