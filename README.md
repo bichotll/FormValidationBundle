@@ -1,25 +1,27 @@
 FormValidationBundle
 ====================
 
-The objective of this bundle is to create a abstract object of the form validation to parse it to another tools.
+The objective of this bundle is to create a abstract and generic object of the form information to parse it to another tools (Javascript or maybe PHP tools).
 
-As we know almost every project has forms and validations. Some of them we have to tell to the user which validation
-has every form input. Even it is nice for the user to know it before submit the forms, stuff that not always happens, and
-even it is hard to implement from javascript (manually).
-
-With this tool you will be able to abstract the form inputs validation and parse to:
-
-
-##Available Formats
-
- - [jQueryValidator (documentation)](https://github.com/bichotll/FormValidationBundle/blob/master/Resources/doc/Format/jQueryValidator.md)
+For instance: It can help you to addapt this information to javascript validation logic for the forms.
  
 
+##Instalation
+
+####Composer
+```shell
+composer require bic/form-validation
+```
+
+####Enable the bundle
+```php
+//...
+new Bic\FormValidationBundle\BicFormValidationBundle()
+//...
+```
+
+
 ##How it works
-
-Every format has his documentation about how to use it.
-
-But well, about the general use...What easer than example?
 
 ####Create the form
 
@@ -45,25 +47,41 @@ But well, about the general use...What easer than example?
                 ->handleRequest($request);
 ```
 
-####Exctract the validation
+####Extract the validation
 
 ```php
-        //generic object...I think you will not really use it if it is not to extend it
         $formValidation = $this->get('bic_form_validation.form_validation');
+        //returns FormValidation object
         $formValidation->extractValidation($form);
-        
-        //example jq_validation
-        $formjq = $this->get('bic_form_validation.form_validation.jq_validation');
-        $formjq->generateJQValidation($form);
-        $formjq = $formjq->returnJson();
+        //returns fields array
+        $formValidation->getFields();
+        //returns json object
+        $formJson = $formValidation->toJson();
 ```
 
 ####Return it to the view
 
 ```php
         return array(
-            'form' => $form->createView(),
-            'form_validation' => $formValidation,
-            'formjq' => $formjq
+            //...
+            'form_validation' => $formJson,
+            //...
         );
 ```
+And do whatever you want with it.
+
+
+##Last changes
+ - Added more form information
+ - Removed jQValidation generator
+ - Removed generator folder and strategy. Now the parsers will be aplied externally.
+
+
+##Known errors
+ - Does not work with complex forms. (to fix).
+
+
+##TODO
+ - Unit Testing
+ - Fix known errors
+ - Create associated js parsers like ParsleyJs

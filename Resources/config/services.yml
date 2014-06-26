@@ -3,7 +3,3 @@ services:
   bic_form_validation.form_validation:
       class: Bic\FormValidationBundle\Generator\FormValidation
       arguments: ["@service_container"]
-    
-  bic_form_validation.form_validation.jq_validation:
-      class: Bic\FormValidationBundle\Generator\Format\JQueryValidator
-      arguments: ["@service_container"]

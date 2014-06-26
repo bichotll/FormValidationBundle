@@ -30,12 +30,12 @@ class FormValidation extends ContainerAware {
      * Fire the extraction. Let's drill.
      * 
      * @param \Symfony\Component\Form\FormInterface $form
-     * @return array
+     * @return \Bic\FormValidationBundle\Generator\FormValidation
      */
     public function extractValidation(\Symfony\Component\Form\FormInterface $form) {
         $this->getFormValidationFields($form);
 
-        return $this->fields;
+        return $this;
     }
 
     /**
@@ -53,6 +53,28 @@ class FormValidation extends ContainerAware {
                 $this->getFormValidationFields($form);
             }
         }
+    }
+
+    /**
+     * Get all the fields array
+     * 
+     * @return array
+     */
+    public function getFields() {
+        return $this->fields;
+    }
+
+    /**
+     * Returns the information in json. Requires jms serializer bundle
+     * 
+     * @return type
+     */
+    public function toJson() {
+        $jsonFields = array();
+        foreach ($this->fields as $field){
+            $jsonFields[] = $field->toArray();
+        }
+        return json_encode($jsonFields);
     }
 
 }

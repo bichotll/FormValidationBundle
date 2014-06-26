@@ -11,6 +11,11 @@ class ValidationField extends ContainerAware {
      * @var array Full name of the field
      */
     private $pathName = array();
+    
+    /**
+     * @var string Full path name
+     */
+    private $fullPathName;
 
     /**
      * @var array Validation groups
@@ -26,6 +31,16 @@ class ValidationField extends ContainerAware {
      * @var array Validation constraints
      */
     private $constraints = array();
+    
+    /**
+     * @var string Field type
+     */
+    private $type;
+    
+    /**
+     * @var string Field options
+     */
+    private $options;
 
     /**
      * Note: Return false if is a submit object
@@ -37,24 +52,27 @@ class ValidationField extends ContainerAware {
     public function __construct(ContainerInterface $container, \Symfony\Component\Form\FormInterface $form) {
         // set container
         $this->setContainer($container);
-
+        
         //get pathName
         $this->pathName[] = $form->getConfig()->getName();
         $this->getParentPathNames($form);
+        
+        $this->getFullPathName();
 
         //break if it's a submit object
         if ($this->pathName[0] == 'submit') {
             return false;
         }
 
-        //get validationGroups
         $this->getParentValidationGroups($form);
 
-        //get dataClass
         $this->getParentDataClasses($form);
 
-        //get constraints using the already code
-        $this->extractContraints();
+        $this->extractContraints($form);
+        
+        $this->extractType($form);
+        
+        $this->extractConfig($form);
     }
 
     /**
@@ -66,6 +84,22 @@ class ValidationField extends ContainerAware {
         if ($parent) {
             $this->pathName[] = $parent->getConfig()->getName();
             $this->getParentPathNames($parent);
+        }
+    }
+    
+    /**
+     * Generates full path name from the $this->pathName
+     */
+    private function getFullPathName(){
+        $tempPath = array_reverse($this->pathName);
+        $this->fullPathName = $tempPath[0].'[';
+        for ($i=1;$i<count($tempPath);$i++){
+            $this->fullPathName .= $tempPath[$i];
+            if ($i != count($tempPath)-1){
+                $this->fullPathName .= '][';
+            } else {
+                $this->fullPathName .= ']';
+            }
         }
     }
 
@@ -165,6 +199,39 @@ class ValidationField extends ContainerAware {
                 }
             }
         }
+    }
+    
+    /**
+     * Extracts the form type
+     * 
+     * @param \Symfony\Component\Form\FormInterface $form
+     */
+    private function extractType(\Symfony\Component\Form\FormInterface $form) {
+        $this->type = $form->getConfig()->getType()->getName();
+    }
+    
+    /**
+     * Extracts the form passed options
+     * 
+     * @param \Symfony\Component\Form\FormInterface $form
+     */
+    private function extractConfig(\Symfony\Component\Form\FormInterface $form) {
+        $options = $form->getConfig()->getAttributes();
+        $this->options = $options['data_collector/passed_options'];
+    }
+
+    public function toArray(){
+        $arrayObject = array();
+        
+        $arrayObject['constraints'] = $this->constraints;
+        $arrayObject['dataClass'] = $this->dataClass;
+        $arrayObject['options'] = $this->options;
+        $arrayObject['pathName'] = $this->pathName;
+        $arrayObject['fullPathName'] = $this->fullPathName;
+        $arrayObject['type'] = $this->type;
+        $arrayObject['validationGroups'] = $this->validationGroups;
+        
+        return $arrayObject;
     }
 
     /**
