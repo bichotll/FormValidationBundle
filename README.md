@@ -71,6 +71,47 @@ new Bic\FormValidationBundle\BicFormValidationBundle()
 And do whatever you want with it.
 
 
+##json form example
+
+```json
+[
+    {
+        constraints: [ ],
+        dataClass: "Bic\Voucher\EntityBundle\Entity\Category",
+        options: {
+            choices: {
+                m: "Male",
+                f: "Female"
+            },
+            required: false,
+            empty_value: "Choose your gender",
+            empty_data: null
+        },
+        pathName: [
+            "name",
+            "bic_voucher_entitybundle_category"
+        ],
+        fullPathName: "bic_voucher_entitybundle_category[name]",
+        type: "choice",
+        validationGroups: [ ]
+    },
+    {
+    constraints: [ ],
+        dataClass: "Bic\Voucher\EntityBundle\Entity\Category",
+        options: {
+            required: false
+        },
+        pathName: [
+            "miniDescription",
+            "bic_voucher_entitybundle_category"
+        ],
+        fullPathName: "bic_voucher_entitybundle_category[miniDescription]",
+        type: "textarea",
+        validationGroups: [ ]
+    }
+]
+```
+
 ##Last changes
  - Added more form information
  - Removed jQValidation generator
@@ -85,3 +126,4 @@ And do whatever you want with it.
  - Unit Testing
  - Fix known errors
  - Create associated js parsers like ParsleyJs
+ - Provide better json example
