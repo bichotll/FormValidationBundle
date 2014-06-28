@@ -113,6 +113,8 @@ And do whatever you want with it.
 ```
 
 ##Last changes
+ - Parent forms not avoided
+ - Submit buttons not avoided
  - Added more form information
  - Removed jQValidation generator
  - Removed generator folder and strategy. Now the parsers will be aplied externally.
@@ -122,8 +124,14 @@ And do whatever you want with it.
  - Does not work with complex forms. (to fix).
 
 
+##Wiki
+
+[How to test it](Resources/doc/testing.md)
+
+
 ##TODO
  - Unit Testing
+..- Change "Container" dependency for \Generator classes. Not all the container is needed. Inject just validator object.
  - Fix known errors
- - Create associated js parsers like ParsleyJs
- - Provide better json example
+ - Create associated js parsers like ParsleyJs and js form generator script. (Out of project).
+ - Provide better and complete json example

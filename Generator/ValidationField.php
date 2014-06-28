@@ -59,11 +59,6 @@ class ValidationField extends ContainerAware {
         
         $this->getFullPathName();
 
-        //break if it's a submit object
-        if ($this->pathName[0] == 'submit') {
-            return false;
-        }
-
         $this->getParentValidationGroups($form);
 
         $this->getParentDataClasses($form);

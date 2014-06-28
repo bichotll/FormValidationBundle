@@ -45,10 +45,9 @@ class FormValidation extends ContainerAware {
      */
     protected function getFormValidationFields(\Symfony\Component\Form\FormInterface $parentForm) {
         foreach ($parentForm->all() as $form) {
-            if ($form->count() == 0) {
-                //let's check the field
-                $this->fields[] = new ValidationField($this->container, $form);
-            } else {
+            //let's check the field
+            $this->fields[] = new ValidationField($this->container, $form);
+            if ($form->count() != 0) {
                 //drill deeper
                 $this->getFormValidationFields($form);
             }
