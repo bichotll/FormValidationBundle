@@ -2,4 +2,4 @@ services:
     
   bic_form_validation.form_validation:
       class: Bic\FormValidationBundle\Generator\FormValidation
-      arguments: ["@service_container"]
+      arguments: ["@validator"]
