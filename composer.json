@@ -17,11 +17,6 @@
         "php":                      ">=5.3.3",
         "symfony/framework-bundle": ">=2.3.0"
     },
-    
-    "require-dev": {
-        "symfony/validator": "2.1.*",
-        "symfony/form": ">=2.3.0"
-    },
 
     "minimum-stability": "dev",
 

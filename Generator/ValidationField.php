@@ -63,11 +63,13 @@ class ValidationField {
 
         $this->getParentDataClasses($form);
 
-        $this->extractContraints($form);
-
         $this->extractType($form);
 
         $this->extractConfig($form);
+
+        if ($this->dataClass != NULL) {
+            $this->extractContraints($form);
+        }
     }
 
     /**
@@ -104,6 +106,12 @@ class ValidationField {
      */
     private function getParentValidationGroups(\Symfony\Component\Form\FormInterface $form) {
         $parent = $form->getParent();
+        
+        //Check if is a form
+        if($parent == NULL || !$parent instanceof \Symfony\Component\Form\FormInterface){
+            return;
+        }
+        
         $validationGroups = $parent->getConfig()->getOption('validation_groups');
         if ($parent && !empty($validationGroups)) {
             $this->validationGroups[] = $parent->getConfig()->getOption('validation_groups');
@@ -116,13 +124,24 @@ class ValidationField {
      */
     private function getParentDataClasses(\Symfony\Component\Form\FormInterface $form) {
         $parent = $form->getParent();
-        if ($parent->getConfig()->getDataClass()) {
-            $this->dataClass = $parent->getConfig()->getDataClass();
-        } else if ($parent->getConfig()->getData()) {
-            $this->dataClass = $parent->getConfig()->getData();
-            $this->assignProperDataClass();
-        } else {
-            $this->getParentDataClasses($parent);
+
+        //check if the object has getConfig method
+        if ($parent == NULL || !$parent instanceof \Symfony\Component\Form\FormInterface || !in_array('getConfig', get_class_methods($parent))) {
+            return;
+        }
+
+        //just in case
+        try {
+            if ($parent->getConfig()->getDataClass()) {
+                $this->dataClass = $parent->getConfig()->getDataClass();
+            } else if ($parent->getConfig()->getData()) {
+                $this->dataClass = $parent->getConfig()->getData();
+                $this->assignProperDataClass();
+            } else {
+                $this->getParentDataClasses($parent);
+            }
+        } catch (\Exception $e) {
+            
         }
     }
 

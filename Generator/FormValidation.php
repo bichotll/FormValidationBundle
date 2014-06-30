@@ -46,6 +46,9 @@ class FormValidation {
      * @param \Symfony\Component\Form\FormInterface $parentForm
      */
     protected function getFormValidationFields(\Symfony\Component\Form\FormInterface $parentForm) {
+        //general form information
+        $this->fields[] = new ValidationField($this->validator, $parentForm);
+        
         foreach ($parentForm->all() as $form) {
             //let's check the field
             $this->fields[] = new ValidationField($this->validator, $form);

@@ -16,7 +16,6 @@ class SimpleType extends AbstractType {
         $builder
                 ->add('name')
                 ->add('field')
-                ->add('anotherField')
         ;
     }
 
