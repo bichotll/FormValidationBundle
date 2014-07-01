@@ -132,6 +132,7 @@ And do whatever you want with it.
 [Full example](Resources/doc/fullExample.md)
 
 ##Last changes
+ - Removed the possibility to get the class name from the data passed
  - Provide better and complete json example (from TODO)
  - FIXED - Does not work with complex forms. (from Known errors)
  - More unit testing (from TODO)

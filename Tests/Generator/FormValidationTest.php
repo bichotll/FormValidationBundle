@@ -56,12 +56,22 @@ class FormValidationTest extends WebTestCase {
 
     public function testInnerFormType() {
         $fVal = new FormValidation($this->validator);
+        
+        $data = array(
+            'test' => 'value test',
+            'test2' => 'value test',
+            'simpleForm' => array(
+                'name' => 'some more data'
+            )
+        );
 
-        $form = $this->container->get('form.factory')->create(new Form\InnerFormType(), null);
+        $form = $this->container->get('form.factory')->create(new Form\InnerFormType(), $data);
 
         $constraints = $fVal->extractValidation($form);
 
         $jsonConstraints = $fVal->toJson();
+        
+        //var_dump($jsonConstraints);
     }
 
 }

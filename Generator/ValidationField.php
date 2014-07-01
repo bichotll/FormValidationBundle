@@ -134,42 +134,11 @@ class ValidationField {
         try {
             if ($parent->getConfig()->getDataClass()) {
                 $this->dataClass = $parent->getConfig()->getDataClass();
-            } else if ($parent->getConfig()->getData()) {
-                $this->dataClass = $parent->getConfig()->getData();
-                $this->assignProperDataClass();
             } else {
                 $this->getParentDataClasses($parent);
             }
         } catch (Exception $e) {
             return;
-        }
-    }
-
-    /**
-     * 
-     * @return boolean
-     */
-    private function assignProperDataClass() {
-        if (is_array($this->dataClass)) {
-            foreach ($this->dataClass as $class) {
-                if (is_object($class)) {
-                    $className = strtolower(get_class($class));
-                } else {
-                    $className = $class;
-                }
-                $className = str_replace("\\", '.', $className);
-                $className = preg_replace('/[.]?[a-zA-Z]+[.]/', "", $className);
-                foreach ($this->pathName as $path) {
-                    $path = strtolower($path);
-                    if ($path == $className) {
-                        $this->dataClass = $class;
-                        return true;
-                    }
-                }
-                if (property_exists($class, $this->pathName[0])) {
-                    $this->dataClass = get_class($class);
-                }
-            }
         }
     }
 
