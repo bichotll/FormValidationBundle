@@ -146,6 +146,13 @@ And do whatever you want with it.
  - Removed generator folder and strategy. Now the parsers will be aplied externally.
 
 
+##Related resources
+
+###[Js form creator](https://github.com/bichotll/Symfony-FormValidationBundle-js-parser)
+It creates the form from the json information.
+[https://github.com/bichotll/Symfony-FormValidationBundle-js-parser](https://github.com/bichotll/Symfony-FormValidationBundle-js-parser)
+
+
 ##Wiki
 
 [How to test it](Resources/doc/testing.md)
