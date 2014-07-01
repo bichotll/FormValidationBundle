@@ -197,7 +197,7 @@ class ValidationField {
                     if (empty($this->validationGroups)) {
                         foreach ($definition->constraints AS $ungroupedConstraints) {
                             // add constraint object
-                            $this->constraints['default'][] = $this->formatConstraint($ungroupedConstraints);
+                            $this->constraints['Default'][] = $this->formatConstraint($ungroupedConstraints);
                         }
                     } else {
                         foreach ($definition->constraintsByGroup AS $constraintGroup => $constraints) {

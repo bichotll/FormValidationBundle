@@ -82,7 +82,18 @@ And do whatever you want with it.
 ```json
 [
     {
-        constraints: [ ],
+        constraints: [ 
+            "Default": [
+                {
+                    "message": "This value should not be null.",
+                    "groups": [
+                        "Default",
+                        "Model"
+                    ],
+                    "class": "Symfony\\Component\\Validator\\Constraints\\NotNull"
+                }
+            ]
+        ],
         dataClass: "Bic\Voucher\EntityBundle\Entity\Category",
         options: {
             choices: {

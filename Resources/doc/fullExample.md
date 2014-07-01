@@ -169,7 +169,7 @@
   },
   {
     "constraints": {
-      "default": [
+      "Default": [
         {
           "message": "This value should not be blank.",
           "groups": [
@@ -196,7 +196,7 @@
   },
   {
     "constraints": {
-      "default": [
+      "Default": [
         {
           "message": "This value should not be null.",
           "groups": [
@@ -224,7 +224,7 @@
   },
   {
     "constraints": {
-      "default": [
+      "Default": [
         {
           "message": "This value should be true.",
           "groups": [
@@ -252,7 +252,7 @@
   },
   {
     "constraints": {
-      "default": [
+      "Default": [
         {
           "message": "The value {{ value }} is not a valid {{ type }}.",
           "type": "integer",
@@ -280,7 +280,7 @@
   },
   {
     "constraints": {
-      "default": [
+      "Default": [
         {
           "message": "This value is not a valid email address.",
           "checkMX": false,
@@ -310,7 +310,7 @@
   },
   {
     "constraints": {
-      "default": [
+      "Default": [
         {
           "maxMessage": "This value is too long. It should have {{ limit }} character or less.|This value is too long. It should have {{ limit }} characters or less.",
           "minMessage": "This value is too short. It should have {{ limit }} character or more.|This value is too short. It should have {{ limit }} characters or more.",
@@ -344,7 +344,7 @@
   },
   {
     "constraints": {
-      "default": [
+      "Default": [
         {
           "message": "This value is not a valid URL.",
           "protocols": [
@@ -376,7 +376,7 @@
   },
   {
     "constraints": {
-      "default": [
+      "Default": [
         {
           "message": "This value is not valid.",
           "pattern": "\/^\\w+\/",
@@ -408,7 +408,7 @@
   },
   {
     "constraints": {
-      "default": [
+      "Default": [
         {
           "version": "4",
           "message": "This is not a valid IP address.",
@@ -437,7 +437,7 @@
   },
   {
     "constraints": {
-      "default": [
+      "Default": [
         {
           "minMessage": "This value should be {{ limit }} or more.",
           "maxMessage": "This value should be {{ limit }} or less.",
@@ -471,7 +471,7 @@
   },
   {
     "constraints": {
-      "default": [
+      "Default": [
         {
           "message": "This value should be equal to {{ compared_value }}.",
           "value": 20,
@@ -500,7 +500,7 @@
   },
   {
     "constraints": {
-      "default": [
+      "Default": [
         {
           "message": "This value is not a valid date.",
           "groups": [
@@ -529,7 +529,7 @@
   },
   {
     "constraints": {
-      "default": [
+      "Default": [
         {
           "message": "This value is not a valid date.",
           "groups": [
@@ -687,7 +687,7 @@
   },
   {
     "constraints": {
-      "default": [
+      "Default": [
         {
           "choices": [
             "male",
@@ -727,7 +727,7 @@
   },
   {
     "constraints": {
-      "default": [
+      "Default": [
         {
           "maxSize": "1024k",
           "mimeTypes": [
@@ -771,7 +771,7 @@
   },
   {
     "constraints": {
-      "default": [
+      "Default": [
         {
           "message": "This value is not a valid currency.",
           "groups": [
