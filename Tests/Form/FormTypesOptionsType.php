@@ -25,6 +25,7 @@ class FormTypesType extends AbstractType {
                 ->add('search', 'search')
                 ->add('url', 'url')
                 ->add('choice', 'choice')
+                ->add('entity', 'entity')
                 ->add('country', 'country')
                 ->add('language', 'language')
                 ->add('locale', 'locale')
@@ -51,7 +52,7 @@ class FormTypesType extends AbstractType {
      * @return string
      */
     public function getName() {
-        return 'bic_formvalidationbundle_simple';
+        return 'bic_formvalidationbundle_form_types';
     }
 
 }

@@ -6,6 +6,11 @@ The objective of this bundle is to create a abstract and generic object of the f
 For instance: It can help you to addapt this information to javascript validation logic for the forms.
  
 
+##Dependencies
+
+Check composer.json of the current version.
+
+
 ##Instalation
 
 ####Composer
@@ -42,6 +47,7 @@ new Bic\FormValidationBundle\BicFormValidationBundle()
                 ->add('submit', 'submit');
 
         // get form from form builder
+        // (http://www.interesarte.com/wp-content/uploads/2013/05/willsmith.jpg)
         $form = $formBuilder
                 ->getForm()
                 ->handleRequest($request);
@@ -112,7 +118,15 @@ And do whatever you want with it.
 ]
 ```
 
+[Full example](Resources/doc/fullExample.md)
+
 ##Last changes
+ - Provide better and complete json example (from TODO)
+ - FIXED - Does not work with complex forms. (from Known errors)
+ - More unit testing (from TODO)
+ - General info of form added
+ - Created first unit testing to check the bundle is working with complex forms
+ - Fix known errors (from TODO)
  - Parent forms not avoided
  - Submit buttons not avoided
  - Added more form information
@@ -120,18 +134,14 @@ And do whatever you want with it.
  - Removed generator folder and strategy. Now the parsers will be aplied externally.
 
 
-##Known errors
- - Does not work with complex forms. (to fix).
-
-
 ##Wiki
 
 [How to test it](Resources/doc/testing.md)
+[Full example](Resources/doc/fullExample.md)
 
 
 ##TODO
- - Unit Testing
-..- Change "Container" dependency for \Generator classes. Not all the container is needed. Inject just validator object.
- - Fix known errors
+ - Proper unit test. Until the next change I will not check the responses programatically.
+ - Unit test using a mock of container, etc.
+ - Test entity type.
  - Create associated js parsers like ParsleyJs and js form generator script. (Out of project).
- - Provide better and complete json example

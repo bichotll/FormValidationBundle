@@ -106,12 +106,12 @@ class ValidationField {
      */
     private function getParentValidationGroups(\Symfony\Component\Form\FormInterface $form) {
         $parent = $form->getParent();
-        
+
         //Check if is a form
-        if($parent == NULL || !$parent instanceof \Symfony\Component\Form\FormInterface){
+        if ($parent == NULL || !$parent instanceof \Symfony\Component\Form\FormInterface) {
             return;
         }
-        
+
         $validationGroups = $parent->getConfig()->getOption('validation_groups');
         if ($parent && !empty($validationGroups)) {
             $this->validationGroups[] = $parent->getConfig()->getOption('validation_groups');
@@ -140,8 +140,8 @@ class ValidationField {
             } else {
                 $this->getParentDataClasses($parent);
             }
-        } catch (\Exception $e) {
-            
+        } catch (Exception $e) {
+            return;
         }
     }
 
@@ -152,8 +152,11 @@ class ValidationField {
     private function assignProperDataClass() {
         if (is_array($this->dataClass)) {
             foreach ($this->dataClass as $class) {
-                $className = strtolower(get_class($class));
-                //todo to change this crappy problem...forgive me, I was upset enough with Symfony forms
+                if (is_object($class)) {
+                    $className = strtolower(get_class($class));
+                } else {
+                    $className = $class;
+                }
                 $className = str_replace("\\", '.', $className);
                 $className = preg_replace('/[.]?[a-zA-Z]+[.]/', "", $className);
                 foreach ($this->pathName as $path) {
@@ -174,8 +177,14 @@ class ValidationField {
      * Helper - Extract all the constraints
      */
     private function extractContraints() {
-        // get meta data from entity
-        $metadata = $this->validator->getMetadataFor($this->dataClass);
+        try {
+            // get meta data from entity
+            $metadata = $this->validator->getMetadataFor($this->dataClass);
+        } catch (Exception $ex) {
+            return;
+        } catch (\Symfony\Component\Validator\Exception\NoSuchMetadataException $e) {
+            return;
+        }
 
         // loop through members
         foreach ($metadata->members AS $property => $inner) {
@@ -186,21 +195,23 @@ class ValidationField {
                 foreach ($inner AS $definition) {
                     // if group
                     if (empty($this->validationGroups)) {
-                        foreach ($definition->constraints AS $ungroupedConstraits) {
+                        foreach ($definition->constraints AS $ungroupedConstraints) {
                             // add constraint object
-                            $this->constraints['default'][] = $ungroupedConstraits;
+                            $this->constraints['default'][] = $this->formatConstraint($ungroupedConstraints);
                         }
                     } else {
                         foreach ($definition->constraintsByGroup AS $constraintGroup => $constraints) {
                             if (in_array($constraintGroup, $this->validationGroups)) {
                                 foreach ($constraints AS $constraint) {
-                                    $this->constraints[$constraintGroup][] = $constraint;
+                                    // add constraint object
+                                    $this->constraints[$constraintGroup][] = $this->formatConstraint($constraint);
                                 }
                             } else {
                                 foreach ($this->validationGroups as $validationGroup) {
                                     if (in_array($constraintGroup, $validationGroup)) {
                                         foreach ($constraints AS $constraint) {
-                                            $this->constraints[$constraintGroup][] = $constraint;
+                                            // add constraint object
+                                            $this->constraints[$constraintGroup][] = $this->formatConstraint($constraint);
                                         }
                                     }
                                 }
@@ -210,6 +221,16 @@ class ValidationField {
                 }
             }
         }
+    }
+
+    /**
+     * 
+     * @param type $constraint
+     */
+    private function formatConstraint($constraint) {
+        $toInsert = (array) $constraint;
+        $toInsert['class'] = get_class($constraint);
+        return $toInsert;
     }
 
     /**
