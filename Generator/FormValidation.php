@@ -69,7 +69,7 @@ class FormValidation {
     }
 
     /**
-     * Returns the information in json. Requires jms serializer bundle
+     * Returns the information in json.
      * 
      * @return type
      */

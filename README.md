@@ -104,6 +104,7 @@ And do whatever you want with it.
             empty_value: "Choose your gender",
             empty_data: null
         },
+        data: '',
         pathName: [
             "name",
             "bic_voucher_entitybundle_category"
@@ -118,6 +119,7 @@ And do whatever you want with it.
         options: {
             required: false
         },
+        data: '',
         pathName: [
             "miniDescription",
             "bic_voucher_entitybundle_category"
@@ -132,6 +134,7 @@ And do whatever you want with it.
 [Full example](Resources/doc/fullExample.md)
 
 ##Last changes
+ - Added data property. It has the value of the field.
  - Removed the possibility to get the class name from the data passed
  - Provide better and complete json example (from TODO)
  - FIXED - Does not work with complex forms. (from Known errors)

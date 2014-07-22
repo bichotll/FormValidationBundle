@@ -10,6 +10,11 @@ class ValidationField {
     private $validator;
 
     /**
+     * @var type \Symfony\Component\Form\Form
+     */
+    private $form;
+
+    /**
      * @var array Full name of the field
      */
     private $pathName = array();
@@ -28,6 +33,11 @@ class ValidationField {
      * @var class Property parent class
      */
     private $dataClass;
+
+    /**
+     * @var class Property parent class
+     */
+    private $data;
 
     /**
      * @var array Validation constraints
@@ -52,6 +62,8 @@ class ValidationField {
     public function __construct(\Symfony\Component\Validator\ValidatorInterface $validator, \Symfony\Component\Form\FormInterface $form) {
         //set up validator
         $this->validator = $validator;
+        
+        $this->form = $form;
 
         //get pathName
         $this->pathName[] = $form->getConfig()->getName();
@@ -66,6 +78,8 @@ class ValidationField {
         $this->extractType($form);
 
         $this->extractConfig($form);
+        
+        $this->extractData();
 
         if ($this->dataClass != NULL) {
             $this->extractContraints($form);
@@ -207,18 +221,23 @@ class ValidationField {
      * 
      * @param \Symfony\Component\Form\FormInterface $form
      */
-    private function extractType(\Symfony\Component\Form\FormInterface $form) {
-        $this->type = $form->getConfig()->getType()->getName();
+    private function extractType() {
+        $this->type = $this->form->getConfig()->getType()->getName();
     }
 
     /**
      * Extracts the form passed options
-     * 
-     * @param \Symfony\Component\Form\FormInterface $form
      */
-    private function extractConfig(\Symfony\Component\Form\FormInterface $form) {
-        $options = $form->getConfig()->getAttributes();
+    private function extractConfig() {
+        $options = $this->form->getConfig()->getAttributes();
         $this->options = $options['data_collector/passed_options'];
+    }
+
+    /**
+     * Extracts the form data (field value)
+     */
+    private function extractData() {
+        $this->data = $this->form->getData();
     }
 
     public function toArray() {
@@ -231,8 +250,16 @@ class ValidationField {
         $arrayObject['fullPathName'] = $this->fullPathName;
         $arrayObject['type'] = $this->type;
         $arrayObject['validationGroups'] = $this->validationGroups;
+        $arrayObject['data'] = $this->getData();
 
         return $arrayObject;
+    }
+
+    /**
+     * @return string Field name
+     */
+    public function getData() {
+        return $this->data;
     }
 
     /**
