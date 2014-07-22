@@ -37,7 +37,7 @@ class ValidationField {
     /**
      * @var class Property parent class
      */
-    private $data;
+    private $value;
 
     /**
      * @var array Validation constraints
@@ -237,7 +237,7 @@ class ValidationField {
      * Extracts the form data (field value)
      */
     private function extractData() {
-        $this->data = $this->form->getData();
+        $this->value = $this->form->getData();
     }
 
     public function toArray() {
@@ -250,7 +250,7 @@ class ValidationField {
         $arrayObject['fullPathName'] = $this->fullPathName;
         $arrayObject['type'] = $this->type;
         $arrayObject['validationGroups'] = $this->validationGroups;
-        $arrayObject['data'] = $this->getData();
+        $arrayObject['value'] = $this->getData();
 
         return $arrayObject;
     }
@@ -259,7 +259,7 @@ class ValidationField {
      * @return string Field name
      */
     public function getData() {
-        return $this->data;
+        return $this->value;
     }
 
     /**
