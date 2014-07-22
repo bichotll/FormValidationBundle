@@ -79,7 +79,7 @@ class ValidationField {
 
         $this->extractConfig($form);
         
-        $this->extractData();
+        $this->extractValue();
 
         if ($this->dataClass != NULL) {
             $this->extractContraints($form);
@@ -236,7 +236,7 @@ class ValidationField {
     /**
      * Extracts the form data (field value)
      */
-    private function extractData() {
+    private function extractValue() {
         $this->value = $this->form->getData();
     }
 
@@ -250,7 +250,7 @@ class ValidationField {
         $arrayObject['fullPathName'] = $this->fullPathName;
         $arrayObject['type'] = $this->type;
         $arrayObject['validationGroups'] = $this->validationGroups;
-        $arrayObject['value'] = $this->getData();
+        $arrayObject['value'] = $this->getValue();
 
         return $arrayObject;
     }
@@ -258,7 +258,7 @@ class ValidationField {
     /**
      * @return string Field name
      */
-    public function getData() {
+    public function getValue() {
         return $this->value;
     }
 
