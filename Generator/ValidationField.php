@@ -12,7 +12,7 @@ class ValidationField {
     /**
      * @var type \Symfony\Component\Form\Form
      */
-    private $form;
+    public $form;
 
     /**
      * @var array Full name of the field
@@ -50,9 +50,14 @@ class ValidationField {
     private $type;
 
     /**
-     * @var string Field options
+     * @var array Field options
      */
     private $options;
+    
+    /**
+     * @var array Entity choice options
+     */
+    private $dataEntityChoice = array();
 
     /**
      * 
@@ -62,7 +67,7 @@ class ValidationField {
     public function __construct(\Symfony\Component\Validator\ValidatorInterface $validator, \Symfony\Component\Form\FormInterface $form) {
         //set up validator
         $this->validator = $validator;
-        
+
         $this->form = $form;
 
         //get pathName
@@ -78,7 +83,7 @@ class ValidationField {
         $this->extractType($form);
 
         $this->extractConfig($form);
-        
+
         $this->extractValue();
 
         if ($this->dataClass != NULL) {
@@ -223,6 +228,26 @@ class ValidationField {
      */
     private function extractType() {
         $this->type = $this->form->getConfig()->getType()->getName();
+        
+        if ($this->type === 'entity'){
+            $this->extractEntityChoice();
+        }
+    }
+    
+    /**
+     * Extracts the choice list from the formView object
+     * 
+     */
+    private function extractEntityChoice(){
+        $formView = $this->form->createView();
+        $choiceViews = $formView->vars['choices'];
+        
+        foreach ($choiceViews as $choice){
+            $arrayChoice = array();
+            $arrayChoice['id'] = $choice->value;
+            $arrayChoice['value'] = $choice->label;
+            array_push($this->dataEntityChoice, $arrayChoice);
+        }
     }
 
     /**
@@ -250,7 +275,31 @@ class ValidationField {
         $arrayObject['fullPathName'] = $this->fullPathName;
         $arrayObject['type'] = $this->type;
         $arrayObject['validationGroups'] = $this->validationGroups;
-        $arrayObject['value'] = $this->getValue();
+
+        //get vals in array if entity
+        if ($this->type === 'entity') {
+            //check if multiple option
+            if ($this->options['multiple']) {
+                $arrayEntityValues = array();
+                foreach ($this->value as $val) {
+                    $arrayEntity = array();
+                    $arrayEntity['id'] = $val->getId();
+                    $arrayEntity['value'] = (string)$val;
+                    array_push($arrayEntityValues, $arrayEntity);
+                }
+                $arrayObject['value'] = $arrayEntityValues;
+            } else {
+                $arrayEntity = array();
+                $arrayEntity['id'] = $this->value->getId();
+                $arrayEntity['value'] = (string)$this->value;
+                $arrayObject['value'] = $arrayEntity;
+            }
+            
+            //add posible choice options
+            $arrayObject['dataEntityChoice'] = $this->dataEntityChoice;
+        } else {
+            $arrayObject['value'] = $this->value;
+        }
 
         return $arrayObject;
     }

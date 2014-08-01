@@ -134,9 +134,12 @@ And do whatever you want with it.
 [Full example](Resources/doc/fullExample.md)
 
 ##Last changes
+ - Added entity results from the FormView object (dataEntityChoice property)
+ - Added JMS Serializer as dependency to get the entity type value and parse it to json
  - Added value property. It has the value of the field.
  - Removed the possibility to get the class name from the data passed
  - Provide better and complete json example (from TODO)
+ - Create associated js parsers like ParsleyJs and js form generator script. (Out of project) (from TODO)
  - FIXED - Does not work with complex forms. (from Known errors)
  - More unit testing (from TODO)
  - General info of form added
@@ -155,6 +158,10 @@ And do whatever you want with it.
 It creates the form from the json information.
 [https://github.com/bichotll/Symfony-FormValidationBundle-js-parser](https://github.com/bichotll/Symfony-FormValidationBundle-js-parser)
 
+###[Js ParsleyJS parser](https://github.com/bichotll/Symfony-FormValidationBundle-ParsleyJS-parser)
+It applies the ParsleyJS validation from the Symfony-FormValidationBundle-js-parser form object or existing one using FormValidationBundle object
+[https://github.com/bichotll/Symfony-FormValidationBundle-ParsleyJS-parser](https://github.com/bichotll/Symfony-FormValidationBundle-ParsleyJS-parser)
+
 
 ##Wiki
 
@@ -166,4 +173,3 @@ It creates the form from the json information.
  - Proper unit test. Until the next change I will not check the responses programatically.
  - Unit test using a mock of container, etc.
  - Test entity type.
- - Create associated js parsers like ParsleyJs and js form generator script. (Out of project).
