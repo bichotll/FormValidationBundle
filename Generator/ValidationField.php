@@ -53,7 +53,7 @@ class ValidationField {
      * @var array Field options
      */
     private $options;
-    
+
     /**
      * @var array Entity choice options
      */
@@ -228,21 +228,21 @@ class ValidationField {
      */
     private function extractType() {
         $this->type = $this->form->getConfig()->getType()->getName();
-        
-        if ($this->type === 'entity'){
+
+        if ($this->type === 'entity') {
             $this->extractEntityChoice();
         }
     }
-    
+
     /**
      * Extracts the choice list from the formView object
      * 
      */
-    private function extractEntityChoice(){
+    private function extractEntityChoice() {
         $formView = $this->form->createView();
         $choiceViews = $formView->vars['choices'];
-        
-        foreach ($choiceViews as $choice){
+
+        foreach ($choiceViews as $choice) {
             $arrayChoice = array();
             $arrayChoice['id'] = $choice->value;
             $arrayChoice['value'] = $choice->label;
@@ -279,22 +279,26 @@ class ValidationField {
         //get vals in array if entity
         if ($this->type === 'entity') {
             //check if multiple option
-            if ($this->options['multiple']) {
-                $arrayEntityValues = array();
-                foreach ($this->value as $val) {
-                    $arrayEntity = array();
-                    $arrayEntity['id'] = $val->getId();
-                    $arrayEntity['value'] = (string)$val;
-                    array_push($arrayEntityValues, $arrayEntity);
+            if ($this->options['multiple']) {                
+                if (is_array($this->value)) {
+                    $arrayEntityValues = array();
+                    foreach ($this->value as $val) {
+                        $arrayEntity = array();
+                        $arrayEntity['id'] = $val->getId();
+                        $arrayEntity['value'] = (string) $val;
+                        array_push($arrayEntityValues, $arrayEntity);
+                    }
+                    $arrayObject['value'] = $arrayEntityValues;
                 }
-                $arrayObject['value'] = $arrayEntityValues;
             } else {
-                $arrayEntity = array();
-                $arrayEntity['id'] = $this->value->getId();
-                $arrayEntity['value'] = (string)$this->value;
-                $arrayObject['value'] = $arrayEntity;
+                if (method_exists($this->value, 'getId')) {
+                    $arrayEntity = array();
+                    $arrayEntity['id'] = $this->value->getId();
+                    $arrayEntity['value'] = (string) $this->value;
+                    $arrayObject['value'] = $arrayEntity;
+                }
             }
-            
+
             //add posible choice options
             $arrayObject['dataEntityChoice'] = $this->dataEntityChoice;
             //delete choices created after create FormView
