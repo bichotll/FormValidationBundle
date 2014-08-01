@@ -297,6 +297,8 @@ class ValidationField {
             
             //add posible choice options
             $arrayObject['dataEntityChoice'] = $this->dataEntityChoice;
+            //delete choices created after create FormView
+            unset($arrayObject['options']['choices']);
         } else {
             $arrayObject['value'] = $this->value;
         }
