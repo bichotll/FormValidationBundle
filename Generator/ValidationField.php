@@ -279,8 +279,9 @@ class ValidationField {
         //get vals in array if entity
         if ($this->type === 'entity') {
             //check if multiple option
-            if ($this->options['multiple']) {                
-                if (is_array($this->value)) {
+            if ($this->options['multiple']) {
+                $arrayValue = $this->value->toArray();
+                if (is_array($arrayValue)) {
                     $arrayEntityValues = array();
                     foreach ($this->value as $val) {
                         $arrayEntity = array();
